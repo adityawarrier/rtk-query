@@ -1,0 +1,15 @@
+.container {
+  display: flex;
+  padding: 12px;
+  flex-direction: row;
+  border-radius: 5px;
+  background-color: antiquewhite;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+.controls{
+ display: flex;
+ align-items: center;
+ gap: 12px; 
+}
