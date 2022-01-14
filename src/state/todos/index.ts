@@ -28,8 +28,13 @@ const todoSlice = createSlice({
       state: TodosState,
       action: PayloadAction<Pick<ITodo, "title" | "completed">>
     ): void => {
-      const length = state.todos.length;
-      state.todos.push({ ...action.payload, id: length });
+      let length = 0;
+      state.todos.forEach((t) => {
+        if (t.id > length) {
+          length = t.id;
+        }
+      });
+      state.todos.push({ ...action.payload, id: length + 1 });
     },
     deleteTodo: (state: TodosState, action: PayloadAction<number>): void => {
       const id = action.payload;

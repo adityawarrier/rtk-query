@@ -15,7 +15,7 @@ const Todo = ({ completed, title, id }: ITodo): React.ReactElement => {
     <div className={styles.container}>
       <p>{title}</p>
       <div className={styles.controls}>
-        <input type="checkbox" checked={completed} onChange={handleOnChange} />
+        <label style={{ cursor: 'pointer' }}><input type="checkbox" checked={completed} onChange={handleOnChange} />Toggle</label>
         <button
           onClick={() => {
             dispatch(TodoActions.deleteTodo(id));
