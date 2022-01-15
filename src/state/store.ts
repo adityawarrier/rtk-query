@@ -1,5 +1,4 @@
 import { configureStore } from "@reduxjs/toolkit";
-import logger from "redux-logger";
 import { todoApiSlice } from "../queries/Todos";
 import { TodoReducer } from "./todos/index";
 
@@ -9,7 +8,7 @@ const store = configureStore({
     [todoApiSlice.reducerPath]: todoApiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(logger, todoApiSlice.middleware),
+    getDefaultMiddleware().concat(todoApiSlice.middleware),
   devTools: process.env.NODE_ENV !== "production",
 });
 

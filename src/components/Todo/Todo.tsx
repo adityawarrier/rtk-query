@@ -1,28 +1,25 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../state/store";
-import { ITodo, TodoActions } from "../../state/todos";
+import { ITodo } from "../../state/todos";
 import styles from "./Todo.module.css";
 
-const Todo = ({ completed, title, id }: ITodo): React.ReactElement => {
-  const dispatch: AppDispatch = useDispatch();
-
-  const handleOnChange = () => {
-    dispatch(TodoActions.toggleTodo(id));
-  };
-
+const Todo = ({
+  completed,
+  title,
+  onDelete,
+  onToggle,
+}: ITodo & {
+  onDelete: () => void;
+  onToggle: () => void;
+}): React.ReactElement => {
   return (
     <div className={styles.container}>
       <p>{title}</p>
       <div className={styles.controls}>
-        <label style={{ cursor: 'pointer' }}><input type="checkbox" checked={completed} onChange={handleOnChange} />Toggle</label>
-        <button
-          onClick={() => {
-            dispatch(TodoActions.deleteTodo(id));
-          }}
-        >
-          Delete
-        </button>
+        <label style={{ cursor: "pointer" }}>
+          <input type="checkbox" checked={completed} onChange={onToggle} />
+          Toggle
+        </label>
+        <button onClick={onDelete}>Delete</button>
       </div>
     </div>
   );

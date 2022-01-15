@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ITodo } from "../state/todos";
 import { Todo } from "./Todo/Todo";
-import { useGetTodosQuery } from "../queries/Todos";
+import {
+  useDeleteTodoMutation,
+  useGetTodosQuery,
+  useToggleTodoMutation,
+} from "../queries/Todos";
 import { TodoTypes } from "../constants/types";
 
 const TodoListQuery = ({ type }: { type: TodoTypes }): React.ReactElement => {
@@ -9,6 +13,7 @@ const TodoListQuery = ({ type }: { type: TodoTypes }): React.ReactElement => {
     data: todos,
     isLoading,
     isError,
+    refetch,
   } = useGetTodosQuery(undefined, {
     selectFromResult: ({ data, ...rest }) => ({
       data: data?.filter((t) => {
@@ -25,6 +30,12 @@ const TodoListQuery = ({ type }: { type: TodoTypes }): React.ReactElement => {
       ...rest,
     }),
   });
+  const [toggleTodo] = useToggleTodoMutation(undefined);
+  const [deleteTodo] = useDeleteTodoMutation(undefined);
+
+  useEffect(() => {
+    // refetch();
+  }, [type, refetch]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -36,9 +47,31 @@ const TodoListQuery = ({ type }: { type: TodoTypes }): React.ReactElement => {
 
   return (
     <>
-      {todos?.map((todo: ITodo) => (
-        <Todo key={todo.id} {...todo} />
-      ))}
+      {todos?.map(({ id, title, completed }: ITodo) => {
+        const onDelete = async () => {
+          try {
+            await deleteTodo(id);
+          } catch (e: any) {
+            console.error(e);
+          }
+        };
+        const onToggle = () => {
+          toggleTodo({
+            id,
+            completed: !completed,
+          });
+        };
+        return (
+          <Todo
+            completed={completed}
+            key={id}
+            id={id}
+            title={title}
+            onDelete={onDelete}
+            onToggle={onToggle}
+          />
+        );
+      })}
     </>
   );
 };

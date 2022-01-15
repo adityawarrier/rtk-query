@@ -3,19 +3,54 @@ import { ITodo } from "../state/todos";
 
 const todoApiSlice = createApi({
   reducerPath: "todoApiSlice",
+
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3001/" }),
+
+  tagTypes: ["Todos"],
+
   endpoints: (builder) => ({
     getTodos: builder.query<ITodo[], void>({
       query: () => "/todos",
+      providesTags: ["Todos"],
     }),
-    getTodo: builder.query<ITodo, void>({
-      query: (id) => `/todos/${id}`,
+    addTodo: builder.mutation<void, ITodo>({
+      query: (todo) => ({
+        url: `/todos`,
+        method: "POST",
+        body: todo,
+      }),
+      invalidatesTags: ["Todos"],
     }),
-    toggleTodo: builder.query<ITodo, void>({
-      query: (id) => `/todos/${id}`,
+    toggleTodo: builder.mutation<void, { id: number; completed: boolean }>({
+      query: ({ id, completed }) => ({
+        url: `/todos/${id}`,
+        method: "PATCH",
+        body: {
+          completed,
+        },
+      }),
+      invalidatesTags: ["Todos"],
+    }),
+    deleteTodo: builder.mutation<void, number>({
+      query: (id) => ({
+        url: `/todos/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Todos"],
     }),
   }),
 });
 
-const { useGetTodosQuery, useGetTodoQuery, useToggleTodoQuery } = todoApiSlice;
-export { todoApiSlice, useGetTodosQuery, useGetTodoQuery, useToggleTodoQuery };
+const {
+  useGetTodosQuery,
+  useToggleTodoMutation,
+  useDeleteTodoMutation,
+  useAddTodoMutation,
+} = todoApiSlice;
+export {
+  todoApiSlice,
+  useGetTodosQuery,
+  useToggleTodoMutation,
+  useDeleteTodoMutation,
+  useAddTodoMutation,
+};
