@@ -19,7 +19,7 @@ export const App = (): React.ReactElement => {
         rtkType={rtkType}
         setRtkType={setRtkType}
       />
-      <AddTodo />
+      <AddTodo rtkType={rtkType} />
       {rtkType === RTKType.REDUX ? (
         <TodoList type={type} />
       ) : (

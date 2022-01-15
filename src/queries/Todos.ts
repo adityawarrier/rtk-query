@@ -17,7 +17,7 @@ const todoApiSlice = createApi({
       query: (todo) => ({
         url: `/todos`,
         method: "POST",
-        body: todo,
+        body: { ...todo, userId: 2 },
       }),
       invalidatesTags: ["Todos"],
     }),
