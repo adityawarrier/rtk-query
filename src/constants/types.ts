@@ -7,6 +7,7 @@ enum TodoTypes {
 enum RTKType {
   REDUX = "REDUX",
   QUERY = "QUERY",
+  SEARCH = "SEARCH",
 }
 
 export { TodoTypes, RTKType };

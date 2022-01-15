@@ -13,6 +13,11 @@ const todoApiSlice = createApi({
       query: () => "/todos",
       providesTags: ["Todos"],
     }),
+    getTodo: builder.query<ITodo, string>({
+      query: (id) => `/todos/${id}`,
+      providesTags: ["Todos"],
+      keepUnusedDataFor: 300,
+    }),
     addTodo: builder.mutation<void, ITodo>({
       query: (todo) => ({
         url: `/todos`,
@@ -43,6 +48,7 @@ const todoApiSlice = createApi({
 
 const {
   useGetTodosQuery,
+  useGetTodoQuery,
   useToggleTodoMutation,
   useDeleteTodoMutation,
   useAddTodoMutation,
@@ -50,6 +56,7 @@ const {
 export {
   todoApiSlice,
   useGetTodosQuery,
+  useGetTodoQuery,
   useToggleTodoMutation,
   useDeleteTodoMutation,
   useAddTodoMutation,

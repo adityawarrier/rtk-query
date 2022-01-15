@@ -91,6 +91,16 @@ export const Header = ({
           />
           QUERY
         </label>
+        <label>
+          <input
+            type="radio"
+            checked={rtkType === RTKType.SEARCH}
+            onChange={() => {
+              setRtkType(RTKType.SEARCH);
+            }}
+          />
+          SEARCH
+        </label>
       </div>
     </div>
   );
